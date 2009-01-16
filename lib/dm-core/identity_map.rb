@@ -16,6 +16,10 @@ module DataMapper
       @cache[key] = resource
     end
 
+    def set!(key, resource)
+      @cache[key] = resource
+    end
+
     alias []= set
 
     # Remove a resource from the IdentityMap

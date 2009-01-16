@@ -390,6 +390,7 @@ module DataMapper
     def _load(marshalled)
       resource = allocate
       Marshal.load(marshalled).each { |kv| resource.instance_variable_set(*kv) }
+      resource.repository.identity_map(resource.model).set!(resource.key, resource)
       resource
     end
 
