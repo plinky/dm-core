@@ -29,6 +29,7 @@ module DataMapper
     end
 
     def self.extended(model)
+      model.instance_variable_set(:@second_level_caches, {})
       model.instance_variable_set(:@storage_names, {})
       model.instance_variable_set(:@properties,    {})
       model.instance_variable_set(:@field_naming_conventions, {})
@@ -36,6 +37,7 @@ module DataMapper
     end
 
     def inherited(target)
+      target.instance_variable_set(:@second_level_caches, @second_level_caches.dup)
       target.instance_variable_set(:@storage_names,       @storage_names.dup)
       target.instance_variable_set(:@properties,          {})
       target.instance_variable_set(:@base_model,          self.base_model)
@@ -400,6 +402,14 @@ module DataMapper
 
     def default_repository_name
       Repository.default_name
+    end
+
+    def second_level_caches(repository_name = default_repository_name)
+      @second_level_caches[repository_name] ||= nil
+    end
+
+    def second_level_caches
+      @second_level_caches
     end
 
     def paranoid_properties

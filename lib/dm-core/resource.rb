@@ -586,6 +586,8 @@ module DataMapper
       dirty_attributes = self.dirty_attributes
       return true if dirty_attributes.empty?
       repository.update(dirty_attributes, to_query) == 1
+      repository.identity_map(model).set(key, self)
+      true
     end
 
     private

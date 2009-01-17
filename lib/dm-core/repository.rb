@@ -33,7 +33,7 @@ module DataMapper
     end
 
     def identity_map(model)
-      @identity_maps[model] ||= IdentityMap.new
+      @identity_maps[model] ||= IdentityMap.new(model.second_level_caches[@name])
     end
 
     # TODO: spec this
